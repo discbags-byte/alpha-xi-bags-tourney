@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <title>Alpha Xi Bags Tourney</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#151c2f;
+      --panel2:#1c2740;
+      --text:#f8fafc;
+      --muted:#9aa8bd;
+      --line:#2a3856;
+      --green:#22c55e;
+      --ku-blue:#0051BA;
+      --ku-crimson:#E8000D;
+      --red:#ef4444;
+      --amber:#f59e0b;
+      --blue:#3b82f6;
+      --purple:#a855f7;
+      --shadow:0 10px 30px rgba(0,0,0,.28);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:linear-gradient(180deg,#080d19,#0b1020 30%,#111827);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;min-height:100%}
+    body{padding-bottom:92px}
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    .app{max-width:920px;margin:0 auto;padding:18px 14px 30px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .brand{font-weight:900;font-size:22px;letter-spacing:-.4px}
+    .subtle{color:var(--muted);font-size:13px}
+    .card{background:rgba(21,28,47,.96);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:14px}
+    .card h2,.card h3{margin:0 0 12px}
+    h1{font-size:27px;margin:0 0 4px}
+    h2{font-size:19px}
+    h3{font-size:16px}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .row.between{justify-content:space-between}
+    .stack{display:grid;gap:10px}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+    @media(max-width:640px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+    .btn{border:0;border-radius:14px;padding:12px 14px;font-weight:800;background:#273552;color:white;min-height:46px}
+    .btn:hover{filter:brightness(1.06)}
+    .btn.primary{background:var(--ku-blue)}
+    .btn.good{background:var(--ku-blue);color:white}
+    .btn.danger{background:var(--ku-crimson)}
+    .btn.warn{background:var(--amber);color:#1b1100}
+    .btn.ghost{background:transparent;border:1px solid var(--line)}
+    .btn.small{padding:8px 10px;min-height:36px;border-radius:10px;font-size:13px}
+    .btn.full{width:100%}
+    .btn:disabled{opacity:.4;cursor:not-allowed}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#23314c;color:#dbeafe;font-weight:700;font-size:13px;border:1px solid #304262}
+    .pill.green{background:#12351f;border-color:#1f6b38;color:#b7f7c8}
+    .pill.red{background:#431919;border-color:#7f2525;color:#fecaca}
+    .pill.amber{background:#3b2a0e;border-color:#75510d;color:#fde68a}
+    .field label{display:block;font-size:12px;color:var(--muted);font-weight:800;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+    input,select{width:100%;background:#0d1528;color:white;border:1px solid #344566;border-radius:12px;padding:12px;outline:none;min-height:44px}
+    input:focus,select:focus{border-color:#5a8dff}
+    .player{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #25324b}
+    .player:last-child{border-bottom:0}
+    .player-name{font-weight:800;flex:1}
+    .check{width:22px;height:22px}
+    .money{font-variant-numeric:tabular-nums}
+    .bigmoney{font-size:30px;font-weight:900}
+    .muted{color:var(--muted)}
+    .divider{height:1px;background:var(--line);margin:12px 0}
+    .team-card{background:#10192c;border:1px solid #2b3b5d;border-radius:14px;padding:12px}
+    .team-title{font-weight:900}
+    .seed{color:#93c5fd;font-size:12px;font-weight:900}
+    .champ{border-color:#6b4f08;background:#2b220d}
+    .sitout{border-color:#7f1d1d;background:#2a1117}
+    .board{border:2px solid #314466;background:linear-gradient(180deg,#16213a,#111a2f)}
+    .board-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .board-num{font-weight:1000;font-size:19px}
+    .board .seed{font-size:19px;font-weight:1000;letter-spacing:0;color:#dbeafe}
+    .versus{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
+    .versus .vs{text-align:center;color:var(--muted);font-weight:900}
+    .team-choice{background:#202e4a;border:1px solid #385078;border-radius:14px;padding:12px;text-align:center}
+    .team-choice strong{display:block;font-size:16px}
+    .score-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+    .score-row input{text-align:center;font-size:18px;font-weight:900}
+    .event-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+    .event{font-size:12px;padding:7px 8px;border-radius:10px;border:1px solid #3c4e70;background:#18243b;color:#e5e7eb}
+    .matchups{display:grid;gap:8px;margin-top:10px}
+    .matchup-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 10px;border:1px solid #334765;border-radius:10px;background:#111a2e}
+    .matchup-vs{color:#93c5fd;font-weight:900}
+
+    .winner-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+    .winner-btn{border:0;border-radius:13px;padding:12px 8px;background:var(--ku-crimson);color:white;font-weight:900}
+    .winner-btn.alt{background:var(--ku-blue);color:white}
+    .queue-item{padding:10px;border-radius:12px;background:#10192c;border:1px solid #263653;margin-top:8px}
+    .bracket-round{margin-bottom:12px}
+    .match-mini{padding:8px 10px;border-left:3px solid #3b82f6;background:#111a2b;border-radius:8px;margin:6px 0;font-size:13px}
+    .completed{opacity:.65}
+    .nav{position:fixed;left:0;right:0;bottom:0;background:rgba(7,12,24,.96);backdrop-filter:blur(10px);border-top:1px solid #26324b;z-index:50;padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+    .nav-inner{max-width:920px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+    .nav button{background:transparent;border:0;color:#8696ad;padding:8px 2px;border-radius:10px;font-size:11px;font-weight:800}
+    .nav button.active{background:#1f2a44;color:white}
+    .nav .icon{display:block;font-size:20px;margin-bottom:3px}
+    .empty{text-align:center;padding:22px 10px;color:var(--muted)}
+    .statline{display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 0;border-bottom:1px solid #23304a}
+    .statline:last-child{border:0}
+    .rank{font-size:18px;font-weight:1000;width:28px;text-align:center}
+    .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#f8fafc;color:#111827;padding:10px 14px;border-radius:12px;font-weight:800;box-shadow:var(--shadow);z-index:100;display:none}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-end;justify-content:center;z-index:90}
+    .modal.open{display:flex}
+    .modal-sheet{width:min(720px,100%);max-height:88vh;overflow:auto;background:#111827;border:1px solid #334155;border-radius:24px 24px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -20px 60px rgba(0,0,0,.35)}
+    .radio-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+    .radio-grid button{background:#1d2a43;border:1px solid #314567;color:white;border-radius:12px;padding:12px 6px;font-weight:900}
+    .radio-grid button.selected{background:#2563eb;border-color:#60a5fa}
+    .warning{background:#3b210b;border:1px solid #7a4a10;color:#fde68a;padding:10px 12px;border-radius:12px;font-size:13px}
+    .success{background:#0e321d;border:1px solid #1f6b3a;color:#bbf7d0;padding:12px;border-radius:12px}
+    .dangerbox{background:#351318;border:1px solid #70242d;color:#fecdd3;padding:12px;border-radius:12px}
+    .tag{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.4px;padding:4px 7px;border-radius:8px;background:#24334f;color:#bfdbfe}
+    .spacer{height:4px}
+  </style>
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<div id="app" class="app"></div>
+
+<div class="nav">
+  <div class="nav-inner">
+    <button data-nav="live"><span class="icon">🎯</span>Live</button>
+    <button data-nav="new"><span class="icon">🔀</span>New</button>
+    <button data-nav="roster"><span class="icon">👥</span>Players</button>
+    <button data-nav="history"><span class="icon">🏆</span>History</button>
+    <button data-nav="stats"><span class="icon">📊</span>Stats</button>
+  </div>
+</div>
+
+<div id="modal" class="modal"><div id="modalSheet" class="modal-sheet"></div></div>
+
+<script>
+const KEY = "alpha_xi_bags_tourney_v1";
+const OLD_KEY = "cornhole_weekend_v1";
+const DEFAULT = {
+  version: 1,
+  players: [],
+  tournaments: [],
+  current: null,
+  currentUltimateLoserId: null,
+  defendingChampionPlayerIds: [],
+  settings: { entryFee: 10, boards: 2, elimination: "single" }
+};
+
+let db = load();
+let view = db.current && !db.current.completed ? "live" : "new";
+
+function uid(prefix="id"){ return prefix+"_"+Math.random().toString(36).slice(2,10)+Date.now().toString(36); }
+function load(){
+  try{
+    let raw = localStorage.getItem(KEY);
+    if(!raw){
+      raw = localStorage.getItem(OLD_KEY);
+      if(raw) localStorage.setItem(KEY, raw);
+    }
+    const x = JSON.parse(raw);
+    return x ? {...DEFAULT, ...x, settings:{...DEFAULT.settings,...(x.settings||{})}} : structuredClone(DEFAULT);
+  }catch(e){ return structuredClone(DEFAULT); }
+}
+function save(){ localStorage.setItem(KEY, JSON.stringify(db)); }
+function money(n){ return "$"+Number(n||0).toFixed(2).replace(".00",""); }
+function esc(s){ return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m])); }
+function getPlayer(id){ return db.players.find(p=>p.id===id); }
+function pname(id){ return getPlayer(id)?.name || "Unknown"; }
+function teamName(team){ return team.playerIds.map(pname).join(" / "); }
+function current(){ return db.current; }
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg;t.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display="none",1800); }
+function shuffle(a){ a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function clamp(n,min,max){ return Math.max(min,Math.min(max,n)); }
+
+document.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>{ view=b.dataset.nav; render(); window.scrollTo({top:0,behavior:"smooth"}); }));
+document.getElementById("modal").addEventListener("click",e=>{ if(e.target.id==="modal") closeModal(); });
+function openModal(html){ document.getElementById("modalSheet").innerHTML=html; document.getElementById("modal").classList.add("open"); }
+function closeModal(){ document.getElementById("modal").classList.remove("open"); }
+
+function render(){
+  document.querySelectorAll("[data-nav]").forEach(b=>b.classList.toggle("active",b.dataset.nav===view));
+  const app=document.getElementById("app");
+  app.innerHTML = header() + (
+    view==="roster" ? rosterView() :
+    view==="new" ? newTournamentView() :
+    view==="live" ? liveView() :
+    view==="history" ? historyView() :
+    statsView()
+  );
+  bind();
+}
+function header(){
+  return `<div class="topbar">
+    <div><div class="brand">Alpha Xi Bags Tourney</div><div class="subtle">Tournament commissioner • V6 pre-GitHub</div></div>
+    ${db.current && !db.current.completed ? `<span class="pill green">LIVE</span>` : `<span class="pill">Ready</span>`}
+  </div>`;
+}
+
+function rosterView(){
+  const ps=[...db.players].sort((a,b)=>a.name.localeCompare(b.name));
+  return `
+  <div class="card">
+    <h1>Players</h1>
+    <div class="subtle">Your master roster stays saved on this device.</div>
+    <div class="row" style="margin-top:14px">
+      <input id="newPlayerName" placeholder="Add player name" style="flex:1;min-width:180px">
+      <button id="addPlayerBtn" class="btn primary">Add</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="row between"><h2>Roster</h2><span class="pill">${ps.length} players</span></div>
+    ${ps.length?ps.map(p=>`
+      <div class="player">
+        <div class="player-name">${esc(p.name)}</div>
+        ${db.currentUltimateLoserId===p.id?`<span class="tag">Ultimate Loser</span>`:""}
+        <button class="btn ghost small rename-player" data-id="${p.id}">Rename</button>
+        <button class="btn ghost small delete-player" data-id="${p.id}">×</button>
+      </div>`).join(""):`<div class="empty">Add the guys who normally play.</div>`}
+  </div>
+  <div class="card">
+    <h3>Backup</h3>
+    <div class="subtle">Your data is stored only in this browser in this local test version. Export a backup occasionally.</div>
+    <div class="row" style="margin-top:12px">
+      <button id="exportBtn" class="btn ghost">Export Backup</button>
+      <label class="btn ghost" style="display:inline-flex;align-items:center">Import Backup<input id="importFile" type="file" accept=".json" style="display:none"></label>
+    </div>
+  </div>`;
+}
+
+function newTournamentView(){
+  if(db.current && !db.current.completed){
+    return `<div class="card"><h1>Tournament in progress</h1><div class="subtle">Finish or abandon the live tournament before starting another.</div><button class="btn primary full" style="margin-top:14px" data-go="live">Open Live Tournament</button></div>`;
+  }
+  const selected = new Set(db.settings.activePlayerIds || db.players.map(p=>p.id));
+  const fee=db.settings.entryFee??10, boards=db.settings.boards??2, elimination=db.settings.elimination||"single";
+  return `
+  <div class="card">
+    <h1>New Tournament</h1>
+    <div class="subtle">Pick who's playing, set the game, then randomize the teams.</div>
+  </div>
+  <div class="card">
+    <h2>Who's here?</h2>
+    ${db.players.length?db.players.map(p=>`
+      <div class="player">
+        <input class="check active-player" type="checkbox" data-id="${p.id}" ${selected.has(p.id)?"checked":""}>
+        <div class="player-name">${esc(p.name)}</div>
+        ${db.currentUltimateLoserId===p.id?`<span class="tag">Current Ultimate Loser</span>`:""}
+      </div>`).join(""):`<div class="empty">Add players first.</div>`}
+    <button class="btn ghost full" data-go="roster" style="margin-top:10px">+ Add / Edit Players</button>
+  </div>
+  <div class="card">
+    <h2>Tournament setup</h2>
+    <div class="grid2">
+      <div class="field"><label>Entry fee per player</label><input id="entryFee" type="number" min="0" max="20" step="1" value="${fee}"></div>
+      <div class="field"><label>Boards</label><select id="boards">${[1,2,3,4,5].map(n=>`<option ${n===boards?"selected":""}>${n}</option>`).join("")}</select></div>
+    </div>
+    <div class="field" style="margin-top:10px"><label>Elimination</label>
+      <select id="elimination">
+        <option value="single" ${elimination==="single"?"selected":""}>Single elimination</option>
+        <option value="double" ${elimination==="double"?"selected":""}>Double elimination</option>
+      </select>
+    </div>
+    <div class="divider"></div>
+    <div class="field" style="margin-top:4px">
+      <label>Loser Format</label>
+      <select id="loserFormat">
+        <option value="thunderdome" selected>Thunderdome + Ultimate Loser</option>
+        <option value="ultimate-only">Ultimate Loser Only</option>
+        <option value="none">None</option>
+      </select>
+      <div class="subtle" style="margin-top:6px">
+        Default: Thunderdome. Ultimate Loser Only skips the 2v2 and sends the first eliminated team directly to 1v1.
+      </div>
+    </div>
+    <label class="player" style="border:0;padding:4px 0">
+      <input id="keepChamps" class="check" type="checkbox" ${db.defendingChampionPlayerIds.length===2?"checked":""} ${db.defendingChampionPlayerIds.length!==2?"disabled":""}>
+      <div><div class="player-name">Keep defending champions together</div>
+      <div class="subtle">${db.defendingChampionPlayerIds.length===2 ? db.defendingChampionPlayerIds.map(pname).join(" / ")+" will be Seed #1." : "No defending champions saved yet."}</div></div>
+    </label>
+  </div>
+  <div class="card">
+    <button id="randomizeBtn" class="btn primary full" ${db.players.length<4?"disabled":""}>Randomize Teams</button>
+    <div class="subtle" style="text-align:center;margin-top:8px">Press it as many times as the number somebody calls.</div>
+  </div>
+  <div id="previewArea"></div>`;
+}
+
+function makeTeams(){
+  const activeIds=[...document.querySelectorAll(".active-player:checked")].map(x=>x.dataset.id);
+  if(activeIds.length<4){ toast("Pick at least 4 players"); return; }
+  const fee=clamp(Number(document.getElementById("entryFee").value)||0,0,20);
+  const boards=Number(document.getElementById("boards").value)||2;
+  const elimination=document.getElementById("elimination").value;
+  const loserFormat=document.getElementById("loserFormat")?.value || "thunderdome";
+  const keep=document.getElementById("keepChamps")?.checked && db.defendingChampionPlayerIds.every(id=>activeIds.includes(id));
+  db.settings={...db.settings,entryFee:fee,boards,elimination,activePlayerIds:activeIds};
+
+  let pool=[...activeIds], sitoutId=null;
+  if(pool.length%2===1){
+    if(db.currentUltimateLoserId && pool.includes(db.currentUltimateLoserId)){
+      sitoutId=db.currentUltimateLoserId;
+      pool=pool.filter(id=>id!==sitoutId);
+    }else{
+      const idx=Math.floor(Math.random()*pool.length);
+      sitoutId=pool[idx]; pool.splice(idx,1);
+    }
+  }
+  const teams=[];
+  if(keep){
+    teams.push({id:uid("team"),seed:1,playerIds:[...db.defendingChampionPlayerIds],losses:0});
+    pool=pool.filter(id=>!db.defendingChampionPlayerIds.includes(id));
+  }
+  pool=shuffle(pool);
+  while(pool.length){
+    teams.push({id:uid("team"),seed:teams.length+1,playerIds:[pool.shift(),pool.shift()],losses:0});
+  }
+  window.preview={activeIds,fee,boards,elimination,loserFormat,keep,sitoutId,teams};
+  renderPreview();
+}
+
+function renderPreview(){
+  const p=window.preview; if(!p)return;
+  const area=document.getElementById("previewArea"); if(!area)return;
+  area.innerHTML=`<div class="card">
+    <div class="row between"><h2>Teams</h2><span class="pill">${p.teams.length} teams</span></div>
+    ${p.sitoutId?`<div class="team-card sitout"><div class="seed">SITS OUT — NO BUY-IN</div><div class="team-title">${esc(pname(p.sitoutId))}</div></div><div class="spacer"></div>`:""}
+    <div class="grid2">${p.teams.map(t=>`<div class="team-card ${t.seed===1&&p.keep?"champ":""}"><div class="seed">SEED #${t.seed}${t.seed===1&&p.keep?" • DEFENDING CHAMPS":""}</div><div class="team-title">${esc(teamName(t))}</div></div>`).join("")}</div>
+    <div class="divider"></div>
+    <div class="row" style="margin-bottom:10px">
+      <span class="pill">${p.loserFormat==="thunderdome"?"Thunderdome + Ultimate Loser":p.loserFormat==="ultimate-only"?"Ultimate Loser Only":"No Loser Contest"}</span>
+    </div>
+    <div class="row between"><div><strong>${p.activeIds.length-(p.sitoutId?1:0)} paying players</strong><div class="subtle">${money(p.fee)} each • ${money((p.activeIds.length-(p.sitoutId?1:0))*p.fee)} pot</div></div>
+    <button id="startTournamentBtn" class="btn good">Start Tournament</button></div>
+  </div>`;
+  document.getElementById("startTournamentBtn").onclick=startTournament;
+}
+
+function startTournament(){
+  const p=window.preview;if(!p)return;
+  const paying=p.activeIds.filter(id=>id!==p.sitoutId);
+  const paid={}; paying.forEach(id=>paid[id]=false);
+  const t={
+    id:uid("t"), createdAt:new Date().toISOString(), completed:false,
+    elimination:p.elimination, boards:p.boards, entryFee:p.fee,
+    activePlayerIds:p.activeIds, sitoutId:p.sitoutId, teams:p.teams,
+    paid, matches:[], eliminatedTeamIds:[], loserContestTeamIds:[],
+    loserFormat:p.loserFormat,
+    playBiggestLoser:p.loserFormat!=="none",
+    ultimateLoserStage:null, championTeamId:null, notes:"",
+    randomizationStamp:Date.now()
+  };
+  if(t.elimination==="single") buildSingleBracket(t);
+  else buildDoubleFirstWave(t);
+  db.current=t; save(); window.preview=null; view="live"; render(); toast("Tournament started");
+}
+
+function nextPow2(n){ let p=1;while(p<n)p*=2;return p; }
+
+function buildSingleBracket(t){
+  const teams=[...t.teams].sort((a,b)=>a.seed-b.seed);
+  const size=nextPow2(teams.length);
+  const byes=size-teams.length;
+  const round1=[];
+  let idx=0;
+  // Give byes to the highest seeds first.
+  for(let i=0;i<byes;i++){
+    const team=teams[idx++];
+    round1.push({byeTeamId:team.id});
+  }
+  const remaining=teams.slice(idx);
+  while(remaining.length>=2){
+    const a=remaining.shift(), b=remaining.pop() || remaining.shift();
+    round1.push({teamAId:a.id,teamBId:b.id});
+  }
+  // Convert byes into round advancement list, then create rounds progressively.
+  t.single={round:1, advancing:[], pendingRoundTeams:[]};
+  round1.forEach(x=>{
+    if(x.byeTeamId) t.single.advancing.push(x.byeTeamId);
+    else t.matches.push(newMatch(t,x.teamAId,x.teamBId,"main",1));
+  });
+  // If no matches (edge case), generate next.
+}
+
+function newMatch(t,a,b,type="main",round=1){
+  return {
+    id:uid("m"),type,round,teamAId:a,teamBId:b,status:"queued",board:null,
+    winnerId:null,loserId:null,scoreA:"",scoreB:"",
+    skunk:false,skunkForTeamId:null,skunkAgainstTeamId:null,
+    fourBaggers:[],noBagsEvents:[],headToHead:[],
+    createdAt:new Date().toISOString()
+  };
+}
+
+function buildDoubleFirstWave(t){
+  const n=t.teams.length;
+  const size=nextPow2(n);
+  const k=Math.log2(size);
+  t.double={size,k,wbRounds:[],lbRounds:[],wbFinalMatchId:null,lbFinalMatchId:null,grandFinalId:null,resetFinalId:null};
+
+  const seedOrder = bracketSeedOrder(size);
+
+  // Winners bracket
+  const wb1=[];
+  for(let i=0;i<seedOrder.length;i+=2){
+    const m=newBracketMatch(t,"WB",1,
+      {kind:"seed",seed:seedOrder[i]},
+      {kind:"seed",seed:seedOrder[i+1]}
+    );
+    wb1.push(m.id); t.matches.push(m);
+  }
+  t.double.wbRounds.push(wb1);
+
+  let prev=wb1;
+  for(let r=2;r<=k;r++){
+    const ids=[];
+    for(let i=0;i<prev.length;i+=2){
+      const m=newBracketMatch(t,"WB",r,
+        {kind:"winner",matchId:prev[i]},
+        {kind:"winner",matchId:prev[i+1]}
+      );
+      ids.push(m.id); t.matches.push(m);
+    }
+    t.double.wbRounds.push(ids); prev=ids;
+  }
+  t.double.wbFinalMatchId=prev[0];
+
+  // Losers bracket
+  // LB round 1 pairs losers from WB round 1.
+  let lbPrev=[];
+  for(let i=0;i<wb1.length;i+=2){
+    const m=newBracketMatch(t,"LB",1,
+      {kind:"loser",matchId:wb1[i]},
+      {kind:"loser",matchId:wb1[i+1]}
+    );
+    lbPrev.push(m.id); t.matches.push(m);
+  }
+  t.double.lbRounds.push(lbPrev);
+
+  let lbRoundNum=1;
+  for(let wbRound=2;wbRound<=k;wbRound++){
+    const wbIds=t.double.wbRounds[wbRound-1];
+
+    // Major LB round: surviving LB teams meet losers dropping from this WB round.
+    lbRoundNum++;
+    const major=[];
+    const drop=[...wbIds].reverse(); // standard crossover to reduce immediate rematches
+    for(let i=0;i<drop.length;i++){
+      const m=newBracketMatch(t,"LB",lbRoundNum,
+        {kind:"winner",matchId:lbPrev[i]},
+        {kind:"loser",matchId:drop[i]}
+      );
+      major.push(m.id); t.matches.push(m);
+    }
+    t.double.lbRounds.push(major);
+    lbPrev=major;
+
+    // Consolidation LB round except after the winners-bracket final.
+    if(wbRound<k){
+      lbRoundNum++;
+      const minor=[];
+      for(let i=0;i<lbPrev.length;i+=2){
+        const m=newBracketMatch(t,"LB",lbRoundNum,
+          {kind:"winner",matchId:lbPrev[i]},
+          {kind:"winner",matchId:lbPrev[i+1]}
+        );
+        minor.push(m.id); t.matches.push(m);
+      }
+      t.double.lbRounds.push(minor);
+      lbPrev=minor;
+    }
+  }
+  t.double.lbFinalMatchId=lbPrev[0];
+
+  // Grand Final 1: undefeated WB champ vs one-loss LB champ.
+  const gf=newBracketMatch(t,"GF",1,
+    {kind:"winner",matchId:t.double.wbFinalMatchId},
+    {kind:"winner",matchId:t.double.lbFinalMatchId}
+  );
+  gf.bracketLabel="GRAND FINAL";
+  t.double.grandFinalId=gf.id; t.matches.push(gf);
+
+  resolveDoubleBracket(t);
+}
+
+function bracketSeedOrder(size){
+  if(size===1) return [1];
+  let arr=[1,2];
+  while(arr.length<size){
+    const nextSize=arr.length*2;
+    const out=[];
+    for(const x of arr) out.push(x,nextSize+1-x);
+    arr=out;
+  }
+  return arr;
+}
+
+function newBracketMatch(t,bracket,round,sourceA,sourceB){
+  return {
+    id:uid("m"), type:"main", bracket, round,
+    bracketLabel:`${bracket} ${round}`,
+    sourceA, sourceB,
+    teamAId:null, teamBId:null,
+    status:"waiting", board:null, winnerId:null, loserId:null,
+    scoreA:"", scoreB:"",
+    skunk:false, skunkForTeamId:null, skunkAgainstTeamId:null,
+    fourBaggers:[], noBagsEvents:[], headToHead:[],
+    createdAt:new Date().toISOString(), auto:false
+  };
+}
+
+function sourceValue(t,source){
+  if(!source) return {known:true,value:null};
+  if(source.kind==="seed"){
+    const tm=t.teams.find(x=>x.seed===source.seed);
+    return {known:true,value:tm?tm.id:null};
+  }
+  if(source.kind==="team") return {known:true,value:source.teamId||null};
+  const m=t.matches.find(x=>x.id===source.matchId);
+  if(!m || m.status!=="completed") return {known:false,value:null};
+  return {known:true,value:source.kind==="winner"?m.winnerId:m.loserId};
+}
+
+function resolveDoubleBracket(t){
+  let changed=true;
+  while(changed){
+    changed=false;
+    for(const m of t.matches.filter(x=>x.type==="main" && x.status==="waiting")){
+      const a=sourceValue(t,m.sourceA), b=sourceValue(t,m.sourceB);
+      if(!a.known || !b.known) continue;
+      m.teamAId=a.value; m.teamBId=b.value;
+
+      if(m.teamAId && m.teamBId){
+        m.status="queued";
+      }else{
+        // True bracket bye / empty slot: auto-advance without recording a loss.
+        m.status="completed"; m.auto=true; m.completedAt=new Date().toISOString();
+        m.winnerId=m.teamAId || m.teamBId || null;
+        m.loserId=null;
+      }
+      changed=true;
+    }
+  }
+}
+
+function teamById(t,id){ return t.teams.find(x=>x.id===id); }
+
+function reconcile(t){
+  if(!t) return;
+
+  // Keep resolving bracket dependencies before assigning boards.
+  if(!t.completed){
+    if(t.elimination==="single") reconcileSingle(t);
+    else reconcileDouble(t);
+  }
+
+  // Loser-side format:
+  // thunderdome = first two eliminated teams play 2v2, losing team splits 1v1.
+  // ultimate-only = first eliminated team splits immediately and plays 1v1.
+  // none = no loser-side contest.
+  const loserFormat=t.loserFormat || (t.playBiggestLoser===false?"none":"thunderdome");
+
+  if(loserFormat==="thunderdome" && t.eliminatedTeamIds.length>=2 && !t.ultimateLoserStage){
+    const a=t.eliminatedTeamIds[0], b=t.eliminatedTeamIds[1];
+    t.loserContestTeamIds=[a,b];
+    t.matches.push(newMatch(t,a,b,"loserTeam",0));
+    t.ultimateLoserStage="team";
+  }
+
+  if(loserFormat==="ultimate-only" && t.eliminatedTeamIds.length>=1 && !t.ultimateLoserStage){
+    const firstTeam=teamById(t,t.eliminatedTeamIds[0]);
+    if(firstTeam){
+      t.matches.push({
+        id:uid("m"),type:"loserSingle",round:0,
+        playerAId:firstTeam.playerIds[0],playerBId:firstTeam.playerIds[1],
+        status:"queued",board:null,winnerId:null,loserId:null,
+        scoreA:"",scoreB:"",skunk:false,fourBaggers:[],noBagsEvents:[],headToHead:[],
+        createdAt:new Date().toISOString()
+      });
+      t.ultimateLoserStage="single";
+    }
+  }
+
+  // Greedy board scheduler:
+  // If a board is open and ANY legal match is ready, assign it.
+  // A team/player already playing on another board cannot be assigned twice.
+  const active=t.matches.filter(m=>m.status==="active");
+  const usedBoards=new Set(active.map(m=>m.board));
+  const busyTeamIds=new Set();
+  const busyPlayerIds=new Set();
+
+  for(const m of active){
+    if(m.type==="loserSingle"){
+      busyPlayerIds.add(m.playerAId);
+      busyPlayerIds.add(m.playerBId);
+    }else{
+      if(m.teamAId) busyTeamIds.add(m.teamAId);
+      if(m.teamBId) busyTeamIds.add(m.teamBId);
+      const a=m.teamAId?teamById(t,m.teamAId):null;
+      const b=m.teamBId?teamById(t,m.teamBId):null;
+      (a?.playerIds||[]).forEach(id=>busyPlayerIds.add(id));
+      (b?.playerIds||[]).forEach(id=>busyPlayerIds.add(id));
+    }
+  }
+
+  const openBoards=[];
+  for(let i=1;i<=t.boards;i++) if(!usedBoards.has(i)) openBoards.push(i);
+
+  const priority=m=>{
+    // Play anything ready rather than leave a board idle.
+    // Among ready matches, main bracket first, then Biggest Loser.
+    if(m.type!=="main") return 50;
+    if(m.bracket==="WB") return 10 + (m.round||0);
+    if(m.bracket==="LB") return 20 + (m.round||0);
+    if(m.bracket==="GF") return 30 + (m.round||0);
+    return 10 + (m.round||0);
+  };
+
+  let ready=t.matches
+    .filter(m=>m.status==="queued")
+    .sort((a,b)=>priority(a)-priority(b) || new Date(a.createdAt)-new Date(b.createdAt));
+
+  const legal=m=>{
+    if(m.type==="loserSingle"){
+      return !busyPlayerIds.has(m.playerAId) && !busyPlayerIds.has(m.playerBId);
+    }
+    if(!m.teamAId || !m.teamBId) return false;
+    if(busyTeamIds.has(m.teamAId) || busyTeamIds.has(m.teamBId)) return false;
+    const a=teamById(t,m.teamAId), b=teamById(t,m.teamBId);
+    const players=[...(a?.playerIds||[]),...(b?.playerIds||[])];
+    return players.every(id=>!busyPlayerIds.has(id));
+  };
+
+  while(openBoards.length){
+    const idx=ready.findIndex(legal);
+    if(idx<0) break; // No LEGAL match can currently be played.
+    const m=ready.splice(idx,1)[0];
+    m.status="active";
+    m.board=openBoards.shift();
+
+    if(m.type==="loserSingle"){
+      busyPlayerIds.add(m.playerAId); busyPlayerIds.add(m.playerBId);
+    }else{
+      busyTeamIds.add(m.teamAId); busyTeamIds.add(m.teamBId);
+      const a=teamById(t,m.teamAId), b=teamById(t,m.teamBId);
+      (a?.playerIds||[]).forEach(id=>busyPlayerIds.add(id));
+      (b?.playerIds||[]).forEach(id=>busyPlayerIds.add(id));
+    }
+  }
+
+  save();
+}
+
+function reconcileSingle(t){
+  const round=t.single.round;
+  const roundMatches=t.matches.filter(m=>m.type==="main"&&m.round===round);
+  const unfinished=roundMatches.some(m=>m.status!=="completed");
+  if(unfinished) return;
+  // If round 1, include byes stored in advancing; every round later advancing starts empty.
+  const winners=roundMatches.map(m=>m.winnerId).filter(Boolean);
+  let advancing=[...(t.single.advancing||[]),...winners];
+  if(advancing.length===1){
+    finishTournament(t,advancing[0]); return;
+  }
+  if(roundMatches.length===0 && advancing.length===0) return;
+  t.single.round++;
+  t.single.advancing=[];
+  // seed-sort for consistency
+  advancing.sort((a,b)=>teamById(t,a).seed-teamById(t,b).seed);
+  while(advancing.length>=2){
+    const a=advancing.shift(), b=advancing.pop() || advancing.shift();
+    t.matches.push(newMatch(t,a,b,"main",t.single.round));
+  }
+  if(advancing.length===1) t.single.advancing.push(advancing[0]);
+}
+
+function reconcileDouble(t){
+  resolveDoubleBracket(t);
+
+  const gf=t.matches.find(m=>m.id===t.double.grandFinalId);
+  if(gf && gf.status==="completed" && !gf.auto && !t.completed){
+    // Team A is always the undefeated winners-bracket champion.
+    if(gf.winnerId===gf.teamAId){
+      finishTournament(t,gf.winnerId);
+      return;
+    }
+    // LB champion handed the WB champion its first loss: one reset game decides it.
+    if(!t.double.resetFinalId){
+      const reset=newBracketMatch(t,"GF",2,
+        {kind:"team",teamId:gf.teamAId},
+        {kind:"team",teamId:gf.teamBId}
+      );
+      reset.bracketLabel="RESET FINAL";
+      t.double.resetFinalId=reset.id;
+      t.matches.push(reset);
+      resolveDoubleBracket(t);
+    }
+  }
+
+  if(t.double.resetFinalId){
+    const reset=t.matches.find(m=>m.id===t.double.resetFinalId);
+    if(reset && reset.status==="completed" && !reset.auto && !t.completed){
+      finishTournament(t,reset.winnerId);
+    }
+  }
+}
+
+function finishTournament(t,championTeamId){
+  if(t.completed)return;
+  t.completed=true; t.completedAt=new Date().toISOString(); t.championTeamId=championTeamId;
+  const champ=teamById(t,championTeamId);
+  db.defendingChampionPlayerIds=[...champ.playerIds];
+  // If the Ultimate Loser contest isn't finished yet, keep current tournament on screen until it is handled,
+  // but main tournament is done. We still archive when user taps finalize.
+  save();
+}
+
+function liveView(){
+  const t=current();
+  if(!t) return `<div class="card"><h1>No live tournament</h1><div class="subtle">Create one and the board scheduler will take over.</div><button class="btn primary full" data-go="new" style="margin-top:14px">Create Tournament</button></div>`;
+  reconcile(t);
+  const paying=t.activePlayerIds.filter(id=>id!==t.sitoutId);
+  const paidCount=paying.filter(id=>t.paid[id]).length;
+  const collected=paidCount*t.entryFee, expected=paying.length*t.entryFee;
+  const active=t.matches.filter(m=>m.status==="active").sort((a,b)=>a.board-b.board);
+  const queued=t.matches.filter(m=>m.status==="queued");
+  const mainDone=t.completed;
+
+  return `
+  <div class="card">
+    <div class="row between">
+      <div><h1>${mainDone?"Tournament Complete":"Live Tournament"}</h1>
+      <div class="subtle">${t.elimination==="single"?"Single":"Double"} elimination • ${t.boards} board${t.boards>1?"s":""} • ${(t.loserFormat||"thunderdome")==="thunderdome"?"Thunderdome + Ultimate Loser":(t.loserFormat||"thunderdome")==="ultimate-only"?"Ultimate Loser Only":"No Loser Contest"}</div></div>
+      <span class="pill ${mainDone?"green":"amber"}">${mainDone?"CHAMPION":"IN PLAY"}</span>
+    </div>
+    ${t.sitoutId?`<div class="warning" style="margin-top:12px"><strong>Sitting out:</strong> ${esc(pname(t.sitoutId))} • No buy-in</div>`:""}
+  </div>
+
+  ${mainDone?championCard(t,collected,expected):""}
+
+  <div class="card">
+    <div class="row between"><h2>Money</h2><span class="pill">${paidCount}/${paying.length} paid</span></div>
+    <div class="grid2">
+      <div><div class="subtle">Collected</div><div class="bigmoney money">${money(collected)}</div></div>
+      <div><div class="subtle">Expected pot</div><div class="bigmoney money">${money(expected)}</div></div>
+    </div>
+    <div class="divider"></div>
+    ${paying.map(id=>`<label class="player"><input class="check paid-toggle" data-id="${id}" type="checkbox" ${t.paid[id]?"checked":""}><div class="player-name">${esc(pname(id))}</div><span class="pill ${t.paid[id]?"green":"red"}">${t.paid[id]?"PAID":"OWES "+money(t.entryFee)}</span></label>`).join("")}
+  </div>
+
+  ${active.length?active.map(m=>matchCard(t,m)).join(""):`<div class="card"><div class="empty">${mainDone?"No games currently assigned.":"Preparing next games…"}</div></div>`}
+
+  ${queued.length?`<div class="card"><h2>Up Next</h2>${queued.slice(0,8).map(m=>queueLine(t,m)).join("")}</div>`:""}
+
+  ${bracketCard(t)}
+
+  <div class="card">
+    <div class="row">
+      <button id="undoBtn" class="btn ghost" ${!t.matches.some(m=>m.status==="completed")?"disabled":""}>Undo Last Result</button>
+      <button id="abandonBtn" class="btn danger">Abandon Tournament</button>
+    </div>
+  </div>`;
+}
+
+function championCard(t,collected,expected){
+  const tm=teamById(t,t.championTeamId); if(!tm)return "";
+  const eachExpected=expected/2;
+  const eachCollected=collected/2;
+  const allPaid=collected===expected;
+  return `<div class="card champ">
+    <div class="seed">🏆 CHAMPIONS</div>
+    <h2 style="font-size:24px">${esc(teamName(tm))}</h2>
+    <div class="grid2">
+      <div><div class="subtle">Pay each winner ${allPaid?"":"right now"}</div><div class="bigmoney">${money(eachCollected)}</div></div>
+      <div><div class="subtle">${allPaid?"Each includes their buy-in":"Each when all buy-ins collected"}</div><div class="bigmoney">${money(eachExpected)}</div></div>
+    </div>
+    <div class="subtle" style="margin-top:6px">Lifetime net winnings will count only money above each winner's entry fee.</div>
+    ${t.loserFormat==="none" || t.playBiggestLoser===false || t.ultimateLoserStage==="done" ? `<button id="finalizeBtn" class="btn good full" style="margin-top:14px">Finalize & Start Next Tournament</button>` : `<div class="warning" style="margin-top:12px">Main bracket is finished. Complete the ${t.loserFormat==="ultimate-only"?"Ultimate Loser game":"Thunderdome / Ultimate Loser"} before finalizing.</div>`}
+  </div>`;
+}
+
+function queueLine(t,m){
+  if(m.type==="loserSingle") return `<div class="queue-item">😬 Ultimate Loser: ${esc(pname(m.playerAId))} vs ${esc(pname(m.playerBId))}</div>`;
+  return `<div class="queue-item">${m.type==="loserTeam"?"🔥 Thunderdome":"Round "+m.round}: ${esc(teamName(teamById(t,m.teamAId)))} vs ${esc(teamName(teamById(t,m.teamBId)))}</div>`;
+}
+
+function matchCard(t,m){
+  if(m.type==="loserSingle") return singleLoserCard(t,m);
+  const a=teamById(t,m.teamAId), b=teamById(t,m.teamBId);
+  const label=m.type==="loserTeam"?"THUNDERDOME":(m.bracketLabel || `ROUND ${m.round}`);
+
+  const h2h=(m.headToHead||[]).map(x=>`
+    <div class="matchup-row">
+      <span><strong>${esc(pname(x.playerAId))}</strong></span>
+      <span class="matchup-vs">↔</span>
+      <span><strong>${esc(pname(x.playerBId))}</strong></span>
+    </div>`).join("");
+
+  const fourBagText=(m.fourBaggers||[]).map(ev=>{
+    const pid=typeof ev==="string"?ev:ev.playerId;
+    return esc(pname(pid));
+  }).join(", ");
+
+  const noBagText=(m.noBagsEvents||[]).map(ev=>
+    `${esc(pname(ev.playerAId))} + ${esc(pname(ev.playerBId))}`
+  ).join("; ");
+
+  return `<div class="card board">
+    <div class="board-head"><div><div class="board-num">BOARD ${m.board}</div><div class="seed">${label}</div></div>
+    ${m.type==="loserTeam"?`<span class="pill red">LOSER ADVANCES 😬</span>`:`<span class="pill">LIVE</span>`}</div>
+
+    <div class="versus">
+      <div class="team-choice"><strong>${esc(teamName(a))}</strong><div class="seed">Seed #${a.seed}</div></div>
+      <div class="vs">VS</div>
+      <div class="team-choice"><strong>${esc(teamName(b))}</strong><div class="seed">Seed #${b.seed}</div></div>
+    </div>
+
+    <div class="event-row">
+      <button class="event set-matchups" data-match="${m.id}">👥 ${m.headToHead?.length?"Edit Throwing Matchups":"Set Throwing Matchups"}</button>
+    </div>
+    ${m.headToHead?.length?`<div class="matchups">${h2h}</div>`:""}
+
+    <div class="score-row">
+      <input class="score-input" data-match="${m.id}" data-side="A" type="number" placeholder="Score (optional)" value="${esc(m.scoreA)}">
+      <input class="score-input" data-match="${m.id}" data-side="B" type="number" placeholder="Score (optional)" value="${esc(m.scoreB)}">
+    </div>
+
+    <div class="event-row">
+      ${a.playerIds.map(pid=>`<button class="event add-4b" data-match="${m.id}" data-player="${pid}">+ 4-Bagger • ${esc(pname(pid))}</button>`).join("")}
+      ${b.playerIds.map(pid=>`<button class="event add-4b" data-match="${m.id}" data-player="${pid}">+ 4-Bagger • ${esc(pname(pid))}</button>`).join("")}
+      <button class="event add-nobags" data-match="${m.id}">+ No Bags on Board</button>
+      <button class="event toggle-skunk" data-match="${m.id}">${m.skunk?"✅ ":""}Skunk</button>
+    </div>
+
+    ${fourBagText?`<div class="subtle" style="margin-top:8px">4-baggers: ${fourBagText}</div>`:""}
+    ${noBagText?`<div class="subtle" style="margin-top:4px">No Bags: ${noBagText}</div>`:""}
+
+    <div class="winner-btns">
+      <button class="winner-btn record-winner" data-match="${m.id}" data-winner="${a.id}">${m.type==="loserTeam"?"THIS TEAM WON":"✓ "+esc(teamName(a))}</button>
+      <button class="winner-btn alt record-winner" data-match="${m.id}" data-winner="${b.id}">${m.type==="loserTeam"?"THIS TEAM WON":"✓ "+esc(teamName(b))}</button>
+    </div>
+  </div>`;
+}
+
+function singleLoserCard(t,m){
+  return `<div class="card board">
+    <div class="board-head"><div><div class="board-num">BOARD ${m.board}</div><div class="seed">ULTIMATE LOSER — 1 vs 1</div></div><span class="pill red">LOSER SITS NEXT</span></div>
+    <div class="versus">
+      <div class="team-choice"><strong>${esc(pname(m.playerAId))}</strong></div><div class="vs">VS</div><div class="team-choice"><strong>${esc(pname(m.playerBId))}</strong></div>
+    </div>
+    <div class="score-row"><input class="score-input" data-match="${m.id}" data-side="A" type="number" placeholder="Score (optional)" value="${esc(m.scoreA)}"><input class="score-input" data-match="${m.id}" data-side="B" type="number" placeholder="Score (optional)" value="${esc(m.scoreB)}"></div>
+    <div class="winner-btns">
+      <button class="winner-btn record-single-winner" data-match="${m.id}" data-winner="${m.playerAId}">✓ ${esc(pname(m.playerAId))}</button>
+      <button class="winner-btn alt record-single-winner" data-match="${m.id}" data-winner="${m.playerBId}">✓ ${esc(pname(m.playerBId))}</button>
+    </div>
+  </div>`;
+}
+
+function bracketCard(t){
+  if(t.elimination==="single"){
+    const mains=t.matches.filter(m=>m.type==="main");
+    const rounds=[...new Set(mains.map(m=>m.round))].sort((a,b)=>a-b);
+    return `<div class="card"><div class="row between"><h2>Bracket</h2><span class="pill">Single elimination</span></div>
+      ${rounds.map(r=>`<div class="bracket-round"><div class="seed">ROUND ${r}</div>${mains.filter(m=>m.round===r).map(m=>miniBracketMatch(t,m)).join("")}</div>`).join("")}
+    </div>`;
+  }
+
+  const wb=t.matches.filter(m=>m.bracket==="WB");
+  const lb=t.matches.filter(m=>m.bracket==="LB");
+  const gf=t.matches.filter(m=>m.bracket==="GF");
+  const wbRounds=[...new Set(wb.map(m=>m.round))].sort((a,b)=>a-b);
+  const lbRounds=[...new Set(lb.map(m=>m.round))].sort((a,b)=>a-b);
+
+  return `<div class="card">
+    <div class="row between"><h2>Double-Elimination Bracket</h2><span class="pill">2 losses eliminates</span></div>
+    <div class="success" style="margin-bottom:12px">This is a fixed winners/losers bracket. Every loss has a predetermined destination.</div>
+
+    <h3>Winners Bracket</h3>
+    ${wbRounds.map(r=>`<div class="bracket-round"><div class="seed">WB ROUND ${r}</div>${wb.filter(m=>m.round===r).map(m=>miniBracketMatch(t,m)).join("")}</div>`).join("")}
+
+    <div class="divider"></div>
+    <h3>Losers Bracket</h3>
+    ${lbRounds.map(r=>`<div class="bracket-round"><div class="seed">LB ROUND ${r}</div>${lb.filter(m=>m.round===r).map(m=>miniBracketMatch(t,m)).join("")}</div>`).join("")}
+
+    <div class="divider"></div>
+    <h3>Championship</h3>
+    ${gf.map(m=>miniBracketMatch(t,m)).join("")}
+  </div>`;
+}
+
+function miniBracketMatch(t,m){
+  const name=id=>id?teamName(teamById(t,id)):"TBD";
+  if(m.auto && m.winnerId){
+    return `<div class="match-mini completed">${esc(name(m.winnerId))} • <strong>BYE / AUTO-ADVANCE</strong></div>`;
+  }
+  if(m.auto && !m.winnerId){
+    return `<div class="match-mini completed">Empty bracket slot</div>`;
+  }
+  const a=name(m.teamAId), b=name(m.teamBId);
+  const status=m.status==="completed"
+    ? ` • Winner: <strong>${esc(name(m.winnerId))}</strong>`
+    : m.status==="active"
+      ? ` • <strong>BOARD ${m.board}</strong>`
+      : "";
+  return `<div class="match-mini ${m.status==="completed"?"completed":""}">${esc(a)} <strong>vs</strong> ${esc(b)}${status}</div>`;
+}
+
+function recordWinner(matchId,winnerTeamId){
+  const t=current(),m=t.matches.find(x=>x.id===matchId); if(!m||m.status!=="active")return;
+  const loserTeamId = m.teamAId===winnerTeamId ? m.teamBId : m.teamAId;
+  m.winnerId=winnerTeamId;m.loserId=loserTeamId;m.status="completed";m.completedAt=new Date().toISOString();m.board=null;
+  // infer exact 11-0 if entered
+  const sa=Number(m.scoreA), sb=Number(m.scoreB);
+  if((m.scoreA!==""&&m.scoreB!=="") && ((sa===11&&sb===0)||(sb===11&&sa===0))) m.skunk=true;
+  if(m.skunk){
+    m.skunkForTeamId=winnerTeamId;
+    m.skunkAgainstTeamId=loserTeamId;
+  }
+
+  if(m.type==="main"){
+    const loser=teamById(t,loserTeamId);
+    loser.losses++;
+    const eliminated=t.elimination==="single" || loser.losses>=2;
+    if(eliminated && !t.eliminatedTeamIds.includes(loserTeamId)) t.eliminatedTeamIds.push(loserTeamId);
+  }else if(m.type==="loserTeam"){
+    const losingTeam=teamById(t,loserTeamId);
+    const sm={id:uid("m"),type:"loserSingle",round:0,playerAId:losingTeam.playerIds[0],playerBId:losingTeam.playerIds[1],status:"queued",board:null,winnerId:null,loserId:null,scoreA:"",scoreB:"",skunk:false,fourBaggers:[],createdAt:new Date().toISOString()};
+    t.matches.push(sm); t.ultimateLoserStage="single";
+  }
+  reconcile(t); save(); render();
+}
+
+function recordSingleWinner(matchId,winnerPlayerId){
+  const t=current(),m=t.matches.find(x=>x.id===matchId); if(!m||m.status!=="active")return;
+  const loser=m.playerAId===winnerPlayerId?m.playerBId:m.playerAId;
+  m.winnerId=winnerPlayerId;m.loserId=loser;m.status="completed";m.completedAt=new Date().toISOString();m.board=null;
+  db.currentUltimateLoserId=loser;t.ultimateLoserStage="done";
+  save();render();toast(pname(loser)+" is the Ultimate Loser");
+}
+
+function finalizeTournament(){
+  const t=current(); if(!t||!t.completed)return;
+  if(t.loserFormat==="none" || t.playBiggestLoser===false) db.currentUltimateLoserId=null;
+  const champion=teamById(t,t.championTeamId);
+  // snapshot player names so history survives renames/deletions
+  t.playerNames={}; t.activePlayerIds.forEach(id=>t.playerNames[id]=pname(id));
+  t.teamSnapshots=t.teams.map(tm=>({id:tm.id,seed:tm.seed,playerIds:[...tm.playerIds],playerNames:tm.playerIds.map(pname),losses:tm.losses}));
+  t.ultimateLoserIdAtEnd=db.currentUltimateLoserId;
+  db.tournaments.unshift(JSON.parse(JSON.stringify(t)));
+  db.current=null;
+  // payment status resets naturally by new tournament
+  db.settings.activePlayerIds=t.activePlayerIds;
+  save(); view="new"; render(); toast("Tournament saved");
+}
+
+function historyView(){
+  if(!db.tournaments.length) return `<div class="card"><h1>History</h1><div class="empty">Completed tournaments will show up here.</div></div>`;
+  return `<div class="card"><h1>History</h1><div class="subtle">${db.tournaments.length} completed tournament${db.tournaments.length===1?"":"s"}</div></div>
+  ${db.tournaments.map((t,i)=>{
+    const ch=t.teamSnapshots?.find(x=>x.id===t.championTeamId);
+    const paying=t.activePlayerIds.length-(t.sitoutId?1:0), pot=paying*t.entryFee, each=pot/2;
+    return `<div class="card">
+      <div class="row between"><div><div class="seed">${new Date(t.completedAt||t.createdAt).toLocaleString()}</div><h2 style="margin-top:4px">${esc(ch?.playerNames?.join(" / ")||"Champion")}</h2></div><span class="pill green">🏆 ${money(each)} each</span></div>
+      <div class="subtle">${t.elimination==="single"?"Single":"Double"} elimination • ${paying} paid spots • ${money(t.entryFee)} buy-in • ${money(pot)} pot</div>
+      ${t.ultimateLoserIdAtEnd?`<div class="dangerbox" style="margin-top:10px">Ultimate Loser: <strong>${esc(t.playerNames?.[t.ultimateLoserIdAtEnd]||pname(t.ultimateLoserIdAtEnd))}</strong></div>`:""}
+      <button class="btn ghost small delete-history" data-index="${i}" style="margin-top:10px">Delete record</button>
+    </div>`;
+  }).join("")}`;
+}
+
+function statsView(){
+  const stats=computeStats();
+  if(!stats.length) return `<div class="card"><h1>Stats</h1><div class="empty">Finish a tournament and the leaderboard starts building.</div></div>`;
+  const sorted=[...stats].sort((a,b)=>b.net-a.net || b.champs-a.champs || b.wins-a.wins);
+  return `<div class="card"><h1>Lifetime Stats</h1><div class="subtle">Net money = winnings above entry fees.</div></div>
+  <div class="card"><h2>Money Leaderboard</h2>
+    ${sorted.map((s,i)=>`<div class="player"><div class="rank">${i+1}</div><div class="player-name">${esc(s.name)}<div class="subtle">${s.champs} title${s.champs===1?"":"s"} • ${s.wins}-${s.losses} matches</div></div><div style="text-align:right"><strong class="money">${s.net>=0?"+":""}${money(s.net)}</strong><div class="subtle">net</div></div></div>`).join("")}
+  </div>
+  <div class="card"><h2>More Stats</h2>
+    ${sorted.map(s=>`<div class="team-card" style="margin-bottom:8px">
+      <div class="row between"><div class="team-title">${esc(s.name)}</div><span class="pill">${s.games?Math.round(100*s.wins/s.games):0}% win</span></div>
+      <div class="grid3" style="margin-top:10px">
+        <div><div class="subtle">4-Baggers</div><strong>${s.fourBaggers}</strong></div>
+        <div><div class="subtle">Skunks Given</div><strong>${s.skunksGiven}</strong></div>
+        <div><div class="subtle">Ultimate Loser</div><strong>${s.ultimateLosers}</strong></div>
+      </div>
+      <div class="grid3" style="margin-top:10px">
+        <div><div class="subtle">No Bags</div><strong>${s.noBags}</strong></div>
+        <div><div class="subtle">H2H Record*</div><strong>${s.headToHeadWins}-${s.headToHeadLosses}</strong></div>
+        <div><div class="subtle">Gross Payouts</div><strong>${money(s.grossPayout)}</strong></div>
+      </div>
+      <div class="grid3" style="margin-top:10px">
+        <div><div class="subtle">Points For*</div><strong>${s.pointsFor}</strong></div>
+        <div><div class="subtle">Points Against*</div><strong>${s.pointsAgainst}</strong></div>
+        <div><div class="subtle">Scored Games Only</div><strong>Pts</strong></div>
+      </div>
+      <div class="subtle" style="margin-top:8px">*Head-to-head record uses the team game result when throwing matchups were entered. Points include only games where scores were entered.</div>
+    </div>`).join("")}
+  </div>
+  ${opponentStatsCard()}
+  ${teamStatsCard()}`;
+}
+
+function computeStats(){
+  const map={};
+  const ensure=(id,name)=>map[id]||(map[id]={id,name:name||pname(id),champs:0,wins:0,losses:0,games:0,fourBaggers:0,skunksGiven:0,skunksReceived:0,ultimateLosers:0,noBags:0,headToHeadWins:0,headToHeadLosses:0,pointsFor:0,pointsAgainst:0,buyins:0,grossPayout:0,net:0});
+  db.tournaments.forEach(t=>{
+    const names=t.playerNames||{};
+    const paying=t.activePlayerIds.filter(id=>id!==t.sitoutId);
+    paying.forEach(id=>{ const s=ensure(id,names[id]); s.buyins+=t.entryFee; s.net-=t.entryFee; });
+    const champ=t.teamSnapshots?.find(x=>x.id===t.championTeamId);
+    const pot=paying.length*t.entryFee;
+    if(champ){
+      champ.playerIds.forEach(id=>{const s=ensure(id,names[id]);s.champs++;s.grossPayout+=pot/2;s.net+=pot/2;});
+    }
+    if(t.ultimateLoserIdAtEnd) ensure(t.ultimateLoserIdAtEnd,names[t.ultimateLoserIdAtEnd]).ultimateLosers++;
+    const teamMap={}; (t.teamSnapshots||[]).forEach(tm=>teamMap[tm.id]=tm);
+    (t.matches||[]).filter(m=>m.status==="completed").forEach(m=>{
+      if(m.type==="main"||m.type==="loserTeam"){
+        const A=teamMap[m.teamAId],B=teamMap[m.teamBId]; if(!A||!B)return;
+        const win=teamMap[m.winnerId],lose=teamMap[m.loserId];
+        if(m.type==="main"){
+          win.playerIds.forEach(id=>{const s=ensure(id,names[id]);s.wins++;s.games++;});
+          lose.playerIds.forEach(id=>{const s=ensure(id,names[id]);s.losses++;s.games++;});
+        }
+        (m.fourBaggers||[]).forEach(ev=>{
+          const id=typeof ev==="string"?ev:ev.playerId;
+          ensure(id,names[id]).fourBaggers++;
+        });
+        (m.noBagsEvents||[]).forEach(ev=>{
+          ensure(ev.playerAId,names[ev.playerAId]).noBags++;
+          ensure(ev.playerBId,names[ev.playerBId]).noBags++;
+        });
+        if(m.skunk){
+          const skunkFor=teamMap[m.skunkForTeamId] || win;
+          const skunkAgainst=teamMap[m.skunkAgainstTeamId] || lose;
+          skunkFor?.playerIds.forEach(id=>ensure(id,names[id]).skunksGiven++);
+          skunkAgainst?.playerIds.forEach(id=>ensure(id,names[id]).skunksReceived++);
+        }
+        if(m.type==="main" && m.headToHead?.length){
+          const winnerTeamId=m.winnerId;
+          for(const pair of m.headToHead){
+            const aWon=A.id===winnerTeamId;
+            const bWon=B.id===winnerTeamId;
+            if(aWon){ensure(pair.playerAId,names[pair.playerAId]).headToHeadWins++;ensure(pair.playerBId,names[pair.playerBId]).headToHeadLosses++;}
+            if(bWon){ensure(pair.playerBId,names[pair.playerBId]).headToHeadWins++;ensure(pair.playerAId,names[pair.playerAId]).headToHeadLosses++;}
+          }
+        }
+        if(m.scoreA!==""&&m.scoreB!==""){
+          const sa=Number(m.scoreA),sb=Number(m.scoreB);
+          A.playerIds.forEach(id=>{const s=ensure(id,names[id]);s.pointsFor+=sa;s.pointsAgainst+=sb;});
+          B.playerIds.forEach(id=>{const s=ensure(id,names[id]);s.pointsFor+=sb;s.pointsAgainst+=sa;});
+        }
+      }
+    });
+  });
+  return Object.values(map);
+}
+
+
+function opponentStatsCard(){
+  const pairs={};
+  db.tournaments.forEach(t=>{
+    const names=t.playerNames||{};
+    const teamMap={}; (t.teamSnapshots||[]).forEach(tm=>teamMap[tm.id]=tm);
+    (t.matches||[]).filter(m=>m.type==="main"&&m.status==="completed"&&m.headToHead?.length).forEach(m=>{
+      const A=teamMap[m.teamAId], B=teamMap[m.teamBId];
+      if(!A||!B)return;
+      for(const p of m.headToHead){
+        const key=[p.playerAId,p.playerBId].sort().join("|");
+        if(!pairs[key])pairs[key]={
+          aId:p.playerAId,bId:p.playerBId,
+          aName:names[p.playerAId]||pname(p.playerAId),
+          bName:names[p.playerBId]||pname(p.playerBId),
+          aWins:0,bWins:0,games:0
+        };
+        const x=pairs[key]; x.games++;
+        if(m.winnerId===A.id){
+          if(x.aId===p.playerAId)x.aWins++;else x.bWins++;
+        }else if(m.winnerId===B.id){
+          if(x.bId===p.playerBId)x.bWins++;else x.aWins++;
+        }
+      }
+    });
+  });
+  const arr=Object.values(pairs).sort((a,b)=>b.games-a.games || Math.max(b.aWins,b.bWins)-Math.max(a.aWins,a.bWins));
+  if(!arr.length)return "";
+  return `<div class="card"><h2>Head-to-Head Opponents</h2><div class="subtle" style="margin-bottom:10px">Based on team game results when throwing matchups were entered.</div>
+    ${arr.slice(0,30).map(x=>`<div class="statline"><div><strong>${esc(x.aName)} vs ${esc(x.bName)}</strong><div class="subtle">${x.games} matchup${x.games===1?"":"s"}</div></div><strong>${x.aWins}-${x.bWins}</strong></div>`).join("")}
+  </div>`;
+}
+
+function teamStatsCard(){
+  const m={};
+  db.tournaments.forEach(t=>{
+    const names=t.playerNames||{};
+    const teamMap={}; (t.teamSnapshots||[]).forEach(tm=>teamMap[tm.id]=tm);
+    (t.matches||[]).filter(x=>x.type==="main"&&x.status==="completed").forEach(g=>{
+      [g.teamAId,g.teamBId].forEach(tid=>{
+        const tm=teamMap[tid]; if(!tm)return;
+        const key=[...tm.playerIds].sort().join("|");
+        if(!m[key])m[key]={name:tm.playerIds.map(id=>names[id]||pname(id)).join(" / "),w:0,l:0,titles:0};
+        if(g.winnerId===tid)m[key].w++;else m[key].l++;
+      });
+    });
+    const ch=teamMap[t.championTeamId]; if(ch){const key=[...ch.playerIds].sort().join("|"); if(!m[key])m[key]={name:ch.playerIds.map(id=>names[id]||pname(id)).join(" / "),w:0,l:0,titles:0};m[key].titles++;}
+  });
+  const arr=Object.values(m).sort((a,b)=>b.titles-a.titles || b.w-a.w);
+  if(!arr.length)return "";
+  return `<div class="card"><h2>Team Records</h2>${arr.slice(0,20).map(x=>`<div class="statline"><div><strong>${esc(x.name)}</strong><div class="subtle">${x.titles} title${x.titles===1?"":"s"}</div></div><strong>${x.w}-${x.l}</strong></div>`).join("")}</div>`;
+}
+
+function undoLast(){
+  const t=current(); if(!t)return;
+  const completed=t.matches.filter(m=>m.status==="completed").sort((a,b)=>new Date(b.completedAt)-new Date(a.completedAt));
+  const m=completed[0]; if(!m)return;
+  // V1 safe undo supports main matches only if no later dependent result exists.
+  const later = t.matches.some(x=>x.status==="completed" && new Date(x.completedAt)>new Date(m.completedAt));
+  if(later){toast("Undo latest result only");return;}
+  if(m.type==="main"){
+    const loser=teamById(t,m.loserId);
+    loser.losses=Math.max(0,loser.losses-1);
+    t.eliminatedTeamIds=t.eliminatedTeamIds.filter(id=>id!==m.loserId);
+    if(t.elimination==="single"){
+      // Single-elimination rounds are created progressively.
+      t.matches=t.matches.filter(x=>x.id===m.id || x.type!=="main" || new Date(x.createdAt)<=new Date(m.completedAt));
+    }else{
+      // Fixed double-elimination bracket: clear every downstream result that depends on this match.
+      const dependsOn=(x,id)=>x.sourceA?.matchId===id || x.sourceB?.matchId===id;
+      const toReset=new Set([m.id]);
+      let grew=true;
+      while(grew){
+        grew=false;
+        for(const x of t.matches){
+          if([...toReset].some(id=>dependsOn(x,id)) && !toReset.has(x.id)){toReset.add(x.id);grew=true;}
+        }
+      }
+      for(const x of t.matches){
+        if(x.id!==m.id && toReset.has(x.id)){
+          x.status="waiting";x.board=null;x.winnerId=null;x.loserId=null;x.teamAId=null;x.teamBId=null;x.completedAt=null;x.auto=false;
+          x.scoreA="";x.scoreB="";x.skunk=false;x.skunkForTeamId=null;x.skunkAgainstTeamId=null;x.fourBaggers=[];x.noBagsEvents=[];x.headToHead=[];
+        }
+      }
+      if(t.double.resetFinalId && toReset.has(t.double.resetFinalId)){
+        t.matches=t.matches.filter(x=>x.id!==t.double.resetFinalId);
+        t.double.resetFinalId=null;
+      }
+    }
+    t.completed=false;t.championTeamId=null;t.completedAt=null;
+  }else if(m.type==="loserTeam"){
+    t.matches=t.matches.filter(x=>x.type!=="loserSingle");t.ultimateLoserStage="team";
+  }else if(m.type==="loserSingle"){
+    t.ultimateLoserStage="single";
+  }
+  m.status="active";m.board=1;m.winnerId=null;m.loserId=null;m.completedAt=null;
+  save();render();toast("Last result undone");
+}
+
+
+function openMatchupModal(matchId){
+  const t=current(),m=t.matches.find(x=>x.id===matchId);
+  const A=teamById(t,m.teamAId),B=teamById(t,m.teamBId);
+  if(!A||!B)return;
+
+  const currentPairs=m.headToHead||[];
+  const currentA1=currentPairs[0]?.playerAId||A.playerIds[0];
+  const currentB1=currentPairs[0]?.playerBId||B.playerIds[0];
+
+  openModal(`
+    <h2>Set Throwing Matchups</h2>
+    <div class="subtle">Optional. This lets us track head-to-head opponent stats.</div>
+    <div class="divider"></div>
+    <div class="grid2">
+      <div class="field">
+        <label>${esc(teamName(A))}</label>
+        <select id="matchA1">${A.playerIds.map(id=>`<option value="${id}" ${id===currentA1?"selected":""}>${esc(pname(id))}</option>`).join("")}</select>
+      </div>
+      <div class="field">
+        <label>${esc(teamName(B))}</label>
+        <select id="matchB1">${B.playerIds.map(id=>`<option value="${id}" ${id===currentB1?"selected":""}>${esc(pname(id))}</option>`).join("")}</select>
+      </div>
+    </div>
+    <div class="subtle" style="margin-top:10px">The other two players will automatically be paired together.</div>
+    <div class="row" style="margin-top:14px">
+      <button id="saveMatchupsBtn" class="btn primary">Save Matchups</button>
+      <button id="clearMatchupsBtn" class="btn ghost">Clear</button>
+    </div>
+  `);
+
+  document.getElementById("saveMatchupsBtn").onclick=()=>{
+    const a1=document.getElementById("matchA1").value;
+    const b1=document.getElementById("matchB1").value;
+    const a2=A.playerIds.find(id=>id!==a1);
+    const b2=B.playerIds.find(id=>id!==b1);
+    m.headToHead=[
+      {playerAId:a1,playerBId:b1},
+      {playerAId:a2,playerBId:b2}
+    ];
+    save();closeModal();render();
+  };
+  document.getElementById("clearMatchupsBtn").onclick=()=>{
+    m.headToHead=[];save();closeModal();render();
+  };
+}
+
+function openNoBagsModal(matchId){
+  const t=current(),m=t.matches.find(x=>x.id===matchId);
+  const A=teamById(t,m.teamAId),B=teamById(t,m.teamBId);
+  if(!A||!B)return;
+
+  // If throwing matchups are set, make the two legal head-to-head choices one tap.
+  if(m.headToHead?.length===2){
+    openModal(`
+      <h2>No Bags on the Board</h2>
+      <div class="subtle">Which pair missed the board with all 8 throws?</div>
+      <div class="stack" style="margin-top:14px">
+        ${m.headToHead.map((x,i)=>`
+          <button class="btn ghost full save-nobags-pair" data-a="${x.playerAId}" data-b="${x.playerBId}">
+            ${esc(pname(x.playerAId))} + ${esc(pname(x.playerBId))}
+          </button>`).join("")}
+      </div>
+    `);
+    document.querySelectorAll(".save-nobags-pair").forEach(btn=>btn.onclick=()=>{
+      saveNoBagsEvent(m,btn.dataset.a,btn.dataset.b);
+    });
+    return;
+  }
+
+  openModal(`
+    <h2>No Bags on the Board</h2>
+    <div class="subtle">Select the two opposing throwers. Each player gets one No Bags stat.</div>
+    <div class="grid2" style="margin-top:14px">
+      <div class="field">
+        <label>${esc(teamName(A))}</label>
+        <select id="nbA">${A.playerIds.map(id=>`<option value="${id}">${esc(pname(id))}</option>`).join("")}</select>
+      </div>
+      <div class="field">
+        <label>${esc(teamName(B))}</label>
+        <select id="nbB">${B.playerIds.map(id=>`<option value="${id}">${esc(pname(id))}</option>`).join("")}</select>
+      </div>
+    </div>
+    <button id="saveNoBagsBtn" class="btn primary full" style="margin-top:14px">Record No Bags</button>
+  `);
+  document.getElementById("saveNoBagsBtn").onclick=()=>{
+    saveNoBagsEvent(m,document.getElementById("nbA").value,document.getElementById("nbB").value);
+  };
+}
+
+function saveNoBagsEvent(m,playerAId,playerBId){
+  if(!Array.isArray(m.noBagsEvents))m.noBagsEvents=[];
+  m.noBagsEvents.push({
+    playerAId,playerBId,
+    teamAId:m.teamAId,teamBId:m.teamBId,
+    createdAt:new Date().toISOString()
+  });
+  save();closeModal();render();
+  toast("No Bags: "+pname(playerAId)+" + "+pname(playerBId));
+}
+
+function bind(){
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{view=b.dataset.go;render();});
+  const add=document.getElementById("addPlayerBtn");
+  if(add) add.onclick=()=>{
+    const inp=document.getElementById("newPlayerName"),name=inp.value.trim();
+    if(!name)return; if(db.players.some(p=>p.name.toLowerCase()===name.toLowerCase())){toast("That player already exists");return;}
+    db.players.push({id:uid("p"),name,createdAt:new Date().toISOString()});save();render();
+  };
+  const np=document.getElementById("newPlayerName"); if(np)np.onkeydown=e=>{if(e.key==="Enter")add.click();};
+  document.querySelectorAll(".delete-player").forEach(b=>b.onclick=()=>{
+    if(db.current&&!db.current.completed){toast("Can't delete during a live tournament");return;}
+    if(confirm("Delete this player from the active roster? Past history stays saved.")){db.players=db.players.filter(p=>p.id!==b.dataset.id);save();render();}
+  });
+  document.querySelectorAll(".rename-player").forEach(b=>b.onclick=()=>{
+    const p=getPlayer(b.dataset.id);const n=prompt("Player name",p.name);if(n&&n.trim()){p.name=n.trim();save();render();}
+  });
+
+  document.querySelectorAll(".active-player").forEach(c=>c.onchange=()=>{
+    db.settings.activePlayerIds=[...document.querySelectorAll(".active-player:checked")].map(x=>x.dataset.id);save();
+  });
+  ["entryFee","boards","elimination"].forEach(id=>{const el=document.getElementById(id);if(el)el.onchange=()=>{db.settings[id==="entryFee"?"entryFee":id]=id==="entryFee"?clamp(Number(el.value)||0,0,20):id==="boards"?Number(el.value):el.value;save();};});
+  const rand=document.getElementById("randomizeBtn");if(rand)rand.onclick=makeTeams;
+
+  document.querySelectorAll(".paid-toggle").forEach(c=>c.onchange=()=>{const t=current();t.paid[c.dataset.id]=c.checked;save();render();});
+  document.querySelectorAll(".score-input").forEach(i=>i.onchange=()=>{const t=current(),m=t.matches.find(x=>x.id===i.dataset.match);if(i.dataset.side==="A")m.scoreA=i.value;else m.scoreB=i.value;save();});
+  document.querySelectorAll(".add-4b").forEach(b=>b.onclick=()=>{
+    const t=current(),m=t.matches.find(x=>x.id===b.dataset.match);
+    const pid=b.dataset.player;
+    const teamId=m.teamAId && teamById(t,m.teamAId)?.playerIds.includes(pid) ? m.teamAId : m.teamBId;
+    const againstTeamId=teamId===m.teamAId?m.teamBId:m.teamAId;
+    if(!Array.isArray(m.fourBaggers)) m.fourBaggers=[];
+    m.fourBaggers.push({playerId:pid,teamId,againstTeamId,createdAt:new Date().toISOString()});
+    save();render();toast("4-bagger: "+pname(pid));
+  });
+  document.querySelectorAll(".add-nobags").forEach(b=>b.onclick=()=>openNoBagsModal(b.dataset.match));
+  document.querySelectorAll(".set-matchups").forEach(b=>b.onclick=()=>openMatchupModal(b.dataset.match));
+  document.querySelectorAll(".toggle-skunk").forEach(b=>b.onclick=()=>{
+    const t=current(),m=t.matches.find(x=>x.id===b.dataset.match);
+    m.skunk=!m.skunk;
+    if(!m.skunk){m.skunkForTeamId=null;m.skunkAgainstTeamId=null;}
+    save();render();
+  });
+  document.querySelectorAll(".record-winner").forEach(b=>b.onclick=()=>recordWinner(b.dataset.match,b.dataset.winner));
+  document.querySelectorAll(".record-single-winner").forEach(b=>b.onclick=()=>recordSingleWinner(b.dataset.match,b.dataset.winner));
+  const fin=document.getElementById("finalizeBtn");if(fin)fin.onclick=finalizeTournament;
+  const undo=document.getElementById("undoBtn");if(undo)undo.onclick=undoLast;
+  const abandon=document.getElementById("abandonBtn");if(abandon)abandon.onclick=()=>{if(confirm("Abandon this tournament? It will not count in history.")){db.current=null;save();view="new";render();}};
+  document.querySelectorAll(".delete-history").forEach(b=>b.onclick=()=>{if(confirm("Delete this tournament record?")){db.tournaments.splice(Number(b.dataset.index),1);save();render();}});
+
+  const exp=document.getElementById("exportBtn");if(exp)exp.onclick=()=>{
+    const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="alpha-xi-bags-backup-"+new Date().toISOString().slice(0,10)+".json";a.click();URL.revokeObjectURL(a.href);
+  };
+  const imp=document.getElementById("importFile");if(imp)imp.onchange=async e=>{
+    const f=e.target.files[0];if(!f)return;
+    try{const x=JSON.parse(await f.text());if(!x.players||!x.tournaments)throw Error();db={...DEFAULT,...x};save();render();toast("Backup imported");}catch{alert("That backup file couldn't be read.");}
+  };
+}
+render();
+</script>
+</body>
+</html>
