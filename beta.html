@@ -1,0 +1,70 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Alpha Xi Bags Tourney BETA</title><style>html,body{margin:0;background:#0b1020;height:100%}#f{border:0;width:100%;height:100vh;display:block}</style></head><body><iframe id="f"></iframe><script>
+(async()=>{
+  const r=await fetch('index.html?beta='+Date.now());
+  let h=await r.text();
+  h=h.replace('const KEY = "alpha_xi_bags_tourney_v1";','const KEY = "alpha_xi_bags_tourney_beta_v1";');
+  h=h.replace('const OLD_KEY = "cornhole_weekend_v1";','const OLD_KEY = "alpha_xi_beta_no_migration";');
+  h=h.replace('Tournament commissioner • V6 pre-GitHub','BETA production • ranked 0-win loser logic');
+  h=h.replace('Default: Thunderdome. Ultimate Loser Only skips the 2v2 and sends the first eliminated team directly to 1v1.','Beta default: Thunderdome is reserved for two eliminated 0-win teams. If only one 0-win team remains possible, that team skips Thunderdome and goes straight to Ultimate Loser.');
+
+  const start=h.indexOf('  // Loser-side format:');
+  const end=h.indexOf('  // Greedy board scheduler:',start);
+  if(start<0||end<0) throw new Error('Could not patch loser logic');
+
+  const block=[
+'  // BETA ranked loser-side logic.',
+'  // Two eliminated 0-win teams => Thunderdome.',
+'  // If exactly one eliminated 0-win team remains possible, skip Thunderdome and split that team 1v1.',
+'  // Other explicit loserFormat choices still work.',
+'  const loserFormat=t.loserFormat || (t.playBiggestLoser===false?"none":"thunderdome");',
+'',
+'  const mainCompleted=t.matches.filter(m=>m.type==="main" && m.status==="completed" && !m.auto);',
+'  const winCount={};',
+'  t.teams.forEach(tm=>winCount[tm.id]=0);',
+'  mainCompleted.forEach(m=>{ if(m.winnerId) winCount[m.winnerId]=(winCount[m.winnerId]||0)+1; });',
+'  const eliminatedSet=new Set(t.eliminatedTeamIds||[]);',
+'  const eliminatedZeroWins=(t.eliminatedTeamIds||[]).filter(id=>(winCount[id]||0)===0);',
+'  const remainingZeroWinTeams=t.teams.filter(tm=>!eliminatedSet.has(tm.id) && (winCount[tm.id]||0)===0);',
+'',
+'  if(loserFormat==="thunderdome" && !t.ultimateLoserStage){',
+'    if(eliminatedZeroWins.length>=2){',
+'      const a=eliminatedZeroWins[0], b=eliminatedZeroWins[1];',
+'      t.loserContestTeamIds=[a,b];',
+'      t.matches.push(newMatch(t,a,b,"loserTeam",0));',
+'      t.ultimateLoserStage="team";',
+'    }else if(eliminatedZeroWins.length===1 && remainingZeroWinTeams.length===0){',
+'      const zeroTeam=teamById(t,eliminatedZeroWins[0]);',
+'      if(zeroTeam){',
+'        t.loserContestTeamIds=[zeroTeam.id];',
+'        t.matches.push({',
+'          id:uid("m"),type:"loserSingle",round:0,',
+'          playerAId:zeroTeam.playerIds[0],playerBId:zeroTeam.playerIds[1],',
+'          status:"queued",board:null,winnerId:null,loserId:null,',
+'          scoreA:"",scoreB:"",skunk:false,fourBaggers:[],noBagsEvents:[],headToHead:[],',
+'          createdAt:new Date().toISOString()',
+'        });',
+'        t.ultimateLoserStage="single";',
+'      }',
+'    }',
+'  }',
+'',
+'  if(loserFormat==="ultimate-only" && t.eliminatedTeamIds.length>=1 && !t.ultimateLoserStage){',
+'    const firstTeam=teamById(t,t.eliminatedTeamIds[0]);',
+'    if(firstTeam){',
+'      t.matches.push({',
+'        id:uid("m"),type:"loserSingle",round:0,',
+'        playerAId:firstTeam.playerIds[0],playerBId:firstTeam.playerIds[1],',
+'        status:"queued",board:null,winnerId:null,loserId:null,',
+'        scoreA:"",scoreB:"",skunk:false,fourBaggers:[],noBagsEvents:[],headToHead:[],',
+'        createdAt:new Date().toISOString()',
+'      });',
+'      t.ultimateLoserStage="single";',
+'    }',
+'  }',
+'',
+].join('\n');
+
+  h=h.slice(0,start)+block+h.slice(end);
+  document.getElementById('f').srcdoc=h;
+})().catch(e=>document.body.innerHTML='<div style="color:white;font-family:sans-serif;padding:24px"><h2>Beta failed to load</h2><pre>'+String(e)+'</pre></div>');
+</script></body></html>
